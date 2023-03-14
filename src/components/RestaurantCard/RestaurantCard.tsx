@@ -155,8 +155,8 @@ export const RestaurantCard = ({
   rating,
   isClosed = false,
   isLoading = false,
-  categories,
   isNew = false,
+  categories,
   className,
   onClick,
 }: RestaurantCardProps) => {

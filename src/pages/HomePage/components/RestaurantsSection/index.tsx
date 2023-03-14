@@ -1,1 +1,1 @@
-export * from './RestaurantsSection'
+export * from './RestaurantsSection.container'
