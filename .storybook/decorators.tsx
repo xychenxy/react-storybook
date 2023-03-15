@@ -17,12 +17,28 @@ import { rootReducer } from '../src/app-state'
 initialize()
 
 const withRoute: DecoratorFn = (StoryFn, { parameters : {deepLink}}) => {
-    
+    // if there's no deeplink config, just return the story in a Router
+    if (!deepLink){
+        return (
+            <BrowserRouter>
+                <StoryFn />
+            </BrowserRouter>
+        )
+    }
+
+    const {path, route} = deepLink
+
     return (
-        <BrowserRouter>
-            <StoryFn />
-        </BrowserRouter>
+        <MemoryRouter
+            // encode URL to simulate what the browser would do
+            initialEntries={[encodeURI(route)]}
+        >
+            <Routes>
+                <Route path={path} element={<StoryFn />} />
+            </Routes>
+        </MemoryRouter>
     )
+
 }
 
 const withTheme: DecoratorFn = (StoryFn, context) => {
