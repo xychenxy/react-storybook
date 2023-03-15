@@ -1,5 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { rest } from 'msw'
+import { expect } from '@storybook/jest'
+import { userEvent, within } from '@storybook/testing-library'
 
 import { BASE_URL } from '../../api'
 import { restaurants } from '../../stub/restaurants'
@@ -43,6 +45,12 @@ Success.parameters = {
 export const WithModalOpen = Template.bind({})
 WithModalOpen.parameters = {
   ...Success.parameters,
+}
+WithModalOpen.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement)
+  const item = await canvas.findByText(/Cheeseburger/i)
+  await userEvent.click(item)
+  await expect(canvas.getByTestId('modal')).toBeInTheDocument()
 }
 
 export const Loading = Template.bind({})
