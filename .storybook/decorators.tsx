@@ -37,9 +37,24 @@ const withTheme: DecoratorFn = (StoryFn, context) => {
 }
 
 
+const withStore: DecoratorFn = (StoryFn, { parameters }) => {
+    // Creates a store by merging optional custom initialState
+    const store = configureStore({
+        reducer: rootReducer,
+        // if undefined, it will default state from reducers
+        preloadedState: parameters.store?.initialState,
+    })
+    return (
+        <StoreProvider store={store}>
+            <StoryFn />
+        </StoreProvider>
+    )
+}
+
 export const globalDecorators = [
     mswDecorator,
     withTheme, 
     withDesign,
-    withRoute
+    withRoute,
+    withStore
 ]
